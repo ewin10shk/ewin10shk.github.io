@@ -795,72 +795,6 @@
             }
         }
 
-        class Bee {
-            constructor() {
-                this.init();
-            }
-
-            init() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = 6;
-                this.vx = (Math.random() - 0.5) * 5;
-                this.vy = (Math.random() - 0.5) * 5;
-                this.targetX = Math.random() * canvas.width;
-                this.targetY = Math.random() * canvas.height;
-            }
-
-            update() {
-                // 지그재그 목표 이동
-                const dx = this.targetX - this.x;
-                const dy = this.targetY - this.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-
-                if (dist < 10) {
-                    this.targetX = Math.random() * canvas.width;
-                    this.targetY = Math.random() * canvas.height;
-                }
-
-                this.vx += dx * 0.01;
-                this.vy += dy * 0.01;
-                this.vx *= 0.95; // 마찰력
-                this.vy *= 0.95;
-
-                this.x += this.vx;
-                this.y += this.vy;
-            }
-
-            draw() {
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate(Math.atan2(this.vy, this.vx));
-
-                // 몸통 (노란색/검은색 줄무늬)
-                ctx.fillStyle = '#fbbf24';
-                ctx.beginPath();
-                ctx.ellipse(0, 0, this.size * 1.5, this.size, 0, 0, Math.PI * 2);
-                ctx.fill();
-                
-                ctx.strokeStyle = '#000';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.moveTo(-2, -this.size);
-                ctx.lineTo(-2, this.size);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(2, -this.size);
-                ctx.lineTo(2, this.size);
-                ctx.stroke();
-
-                // 날개 (반투명 화이트)
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-                ctx.beginPath();
-                ctx.ellipse(0, -this.size, this.size, this.size / 2, Math.sin(Date.now() * 0.1), 0, Math.PI * 2);
-                ctx.fill();
-
-                ctx.restore();
-            }
-        }
 
         let creatures = [];
         function createParticles() {
@@ -871,10 +805,6 @@
             // 나비 5마리
             for (let i = 0; i < 5; i++) {
                 creatures.push(new Butterfly());
-            }
-            // 벌 3마리
-            for (let i = 0; i < 3; i++) {
-                creatures.push(new Bee());
             }
         }
 
