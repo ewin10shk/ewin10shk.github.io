@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이창열 - 개인 홈페이지</title>
+    <!-- 멋진 폰트 적용 (Pretendard) -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <!-- 아이콘 폰트 (FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* 기본 변수 설정 (라이트 모드) */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --text-muted: #666666;
+            --primary-color: #2563eb; /* 신뢰감을 주는 블루 */
+            --primary-hover: #1d4ed8;
+            --section-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --header-bg: rgba(255, 255, 255, 0.9);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s ease;
+        }
+
+        /* 다크 모드 변수 설정 */
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --text-color: #f1f5f9;
+            --text-muted: #94a3b8;
+            --primary-color: #3b82f6;
+            --primary-hover: #60a5fa;
+            --section-bg: #1e293b;
+            --card-bg: #334155;
+            --border-color: #475569;
+            --header-bg: rgba(15, 23, 42, 0.9);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 기본 스타일 초기화 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* 헤더 네비게이션 */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links li a {
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links li a:hover {
+            color: var(--primary-color);
+        }
+
+        /* 테마 토글 버튼 */
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--section-bg);
+            color: var(--primary-color);
+        }
+
+        /* 공통 섹션 스타일 */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        /* 교차 배경색 적용 */
+        .bg-alt {
+            background-color: var(--section-bg);
+            max-width: 100%;
+        }
+
+        .bg-alt .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* 히어로 섹션 */
+        #hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            padding-top: 80px;
+            position: relative;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url('spring_bg.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            transition: var(--transition);
+            overflow: hidden; /* 꽃잎이 넘치지 않게 */
+        }
+
+        #petal-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        [data-theme="dark"] #hero {
+            background-image: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('spring_bg.png');
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dark"] .hero-title {
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero-title span {
+            color: var(--primary-color);
+        }
+
+        .hero-desc {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background-color: var(--primary-color);
+            color: #ffffff !important;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+            color: #ffffff;
+        }
+
+        /* 소개 섹션 */
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            background-color: var(--card-bg);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .about-icon {
+            font-size: 5rem;
+            color: var(--primary-color);
+            flex-shrink: 0;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--section-bg);
+            border-radius: 50%;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        
+        .info-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-item i {
+            color: var(--primary-color);
+            width: 20px;
+        }
+
+        /* 경력 타임라인 섹션 */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--primary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: var(--bg-color);
+            border: 4px solid var(--primary-color);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 50%;
+        }
+
+        .right::after {
+            left: -10px;
+        }
+
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: var(--card-bg);
+            position: relative;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-color: var(--primary-color);
+        }
+
+        .timeline-year {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* 관심 분야 섹션 */
+        .interests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .interest-card {
+            background-color: var(--card-bg);
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .interest-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+        }
+
+        .interest-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .interest-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* 연락처 섹션 */
+        .contact-container {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-text {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .contact-info {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background-color: var(--card-bg);
+            padding: 1.5rem 3rem;
+            border-radius: 50px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            font-size: 1.2rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .contact-info:hover {
+            transform: scale(1.05);
+            border-color: var(--primary-color);
+        }
+
+        .contact-info i {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        /* 푸터 */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            background-color: var(--section-bg);
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+        }
+
+        /* 반응형 스타일 */
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none; /* 모바일에서는 메뉴 숨김 처리 (단순화를 위해) */
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-desc {
+                font-size: 1.1rem;
+            }
+
+            .about-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 2rem;
+                padding: 2rem;
+            }
+
+            .info-list {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline-item::after {
+                left: 21px;
+            }
+
+            .right {
+                left: 0%;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                padding: 1.5rem;
+                border-radius: 20px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 헤더 -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">Changyeol.</div>
+            <ul class="nav-links">
+                <li><a href="#about">소개</a></li>
+                <li><a href="#experience">경력</a></li>
+                <li><a href="#interests">관심분야</a></li>
+                <li><a href="#contact">연락처</a></li>
+            </ul>
+            <!-- 테마 변경 버튼 -->
+            <button class="theme-toggle" id="theme-toggle" aria-label="테마 변경">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- 히어로 섹션 -->
+    <section id="hero">
+        <canvas id="petal-canvas"></canvas>
+        <p class="hero-subtitle">도시주택국 토지정보과 지방시설사무관</p>
+        <h1 class="hero-title">안녕하세요, <br><span>이창열</span>입니다.</h1>
+        <p class="hero-desc">단순하고 행복하길 꿈꾸는 사람</p>
+        <a href="#about" class="hero-btn">더 알아보기</a>
+    </section>
+
+    <!-- 자기소개 섹션 -->
+    <div class="bg-alt" id="about">
+        <section>
+            <h2 class="section-title">소개</h2>
+            <div class="about-content">
+                <div class="about-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="about-text">
+                    <h3>성실함과 전문성을 바탕으로 일합니다</h3>
+                    <p>오랜 공직 생활과 민간 기업에서의 다양한 경험을 바탕으로, 도시 주택 및 토지 정보 분야에서 전문성을 발휘하고 있습니다. 복잡한 업무 속에서도 단순함의 가치를 잃지 않으려 노력합니다.</p>
+                    
+                    <ul class="info-list">
+                        <li class="info-item">
+                            <i class="fas fa-building"></i>
+                            <span>소속: 도시주택국 토지정보과</span>
+                        </li>
+                        <li class="info-item">
+                            <i class="fas fa-briefcase"></i>
+                            <span>직급: 지방시설사무관</span>
+                        </li>
+                        <li class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>이메일: ewin10shk@gmail.com</span>
+                        </li>
+                        <li class="info-item">
+                            <i class="fas fa-star"></i>
+                            <span>가치관: 단순함, 행복</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 경력 타임라인 섹션 -->
+    <section id="experience">
+        <h2 class="section-title">나의 발자취</h2>
+        <div class="timeline">
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="timeline-year">총 21년</div>
+                    <h3 class="timeline-title">공무원</h3>
+                    <p>도시, 주택, 토지정보 분야에서 시민을 위한 행정 서비스를 기획하고 실행하고 있습니다.</p>
+                </div>
+            </div>
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="timeline-year">1년</div>
+                    <h3 class="timeline-title">한국국토정보공사 (LX)</h3>
+                    <p>국토의 체계적인 관리와 정보화에 기여하며 전문적인 지적 측량 및 공간정보 업무를 수행했습니다.</p>
+                </div>
+            </div>
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="timeline-year">3년</div>
+                    <h3 class="timeline-title">건설회사</h3>
+                    <p>현장 실무와 민간 분야의 생리를 익히며 건설 산업에 대한 탄탄한 기본기를 다졌습니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 관심 분야 섹션 -->
+    <div class="bg-alt" id="interests">
+        <section>
+            <h2 class="section-title">관심사</h2>
+            <div class="interests-grid">
+                <div class="interest-card">
+                    <div class="interest-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>재테크</h3>
+                    <p>안정적이고 지속 가능한 자산 관리에 관심을 가지고 꾸준히 공부하고 있습니다.</p>
+                </div>
+                <div class="interest-card">
+                    <div class="interest-icon">
+                        <i class="fas fa-running"></i>
+                    </div>
+                    <h3>런닝</h3>
+                    <p>달리기를 통해 체력을 단련하고, 머리를 비우며 일상의 활력을 얻습니다.</p>
+                </div>
+                <div class="interest-card">
+                    <div class="interest-icon">
+                        <i class="fas fa-mountain"></i>
+                    </div>
+                    <h3>등산</h3>
+                    <p>자연 속에서 정상에 오르는 성취감을 즐기며, 심신의 건강을 돌봅니다.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 연락처 섹션 -->
+    <section id="contact">
+        <h2 class="section-title">연락처</h2>
+        <div class="contact-container">
+            <p class="contact-text">함께 이야기를 나누고 싶으시다면 언제든 연락 주시기 바랍니다.</p>
+            <a href="mailto:ewin10shk@gmail.com" class="contact-info">
+                <i class="fas fa-paper-plane"></i>
+                <span>ewin10shk@gmail.com</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer>
+        <p>&copy; 2026 이창열 (Lee Chang-yeol). All Rights Reserved.</p>
+    </footer>
+
+    <!-- 자바스크립트 -->
+    <script>
+        // 1. 다크 모드 / 라이트 모드 토글 기능
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = themeToggleBtn.querySelector('i');
+        
+        // 사용자의 시스템 설정 또는 이전 선택 저장 확인
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        
+        // 초기 테마 설정
+        if (currentTheme == 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+
+        // 토글 버튼 클릭 이벤트
+        themeToggleBtn.addEventListener('click', function() {
+            let theme = "light";
+            
+            if (document.documentElement.getAttribute('data-theme') !== 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                theme = "dark";
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+            
+            // 사용자 선택 저장
+            localStorage.setItem('theme', theme);
+        });
+
+        // 2. 흩날리는 벚꽃잎 효과 (Canvas)
+        const canvas = document.getElementById('petal-canvas');
+        const ctx = canvas.getContext('2d');
+        let petals = [];
+
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Petal {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height - canvas.height;
+                this.size = Math.random() * 10 + 5;
+                this.speed = Math.random() * 2 + 1;
+                this.angle = Math.random() * Math.PI * 2;
+                this.spin = Math.random() * 0.2 - 0.1;
+                this.wind = Math.random() * 1.5 + 0.5;
+                
+                // 벚꽃색 (라이트/다크에 따라 미세하게 조정도 가능하지만 기본은 핑크)
+                const pinks = ['#ffccdc', '#ffb7c5', '#ff99ac', '#fff0f5'];
+                this.color = pinks[Math.floor(Math.random() * pinks.length)];
+            }
+
+            update() {
+                this.y += this.speed;
+                this.x += this.wind;
+                this.angle += this.spin;
+
+                if (this.y > canvas.height || this.x > canvas.width) {
+                    this.init();
+                    this.y = -20; // 상단에서 다시 시작
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                ctx.beginPath();
+                // 꽃잎 모양 (타원형)
+                ctx.ellipse(0, 0, this.size, this.size / 2, 0, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function createPetals() {
+            const petalCount = 40;
+            for (let i = 0; i < petalCount; i++) {
+                petals.push(new Petal());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            petals.forEach(petal => {
+                petal.update();
+                petal.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        createPetals();
+        animate();
+
+        // 3. 부드러운 스크롤 기능 (네비게이션 링크 클릭 시)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // 헤더 높이를 고려한 스크롤 위치 계산
+                    const headerOffset = 70;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+  
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
